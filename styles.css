@@ -1,0 +1,417 @@
+:root {
+    --primary-pink: #ff33cc;
+    --light-pink: #ffe6f0;
+    --hover-pink: #ff66b3;
+    --border-pink: #cc6699;
+    --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    --background-start: #ffffff;
+    --background-end: #ffe6f0;
+    --cell-bg: #ffe6f0;
+    --cell-hover: #ffccdd;
+    --cell-revealed: #ffffff;
+    --cell-bomb: #ff99cc;
+    --text-color: #ff33cc;
+    --shadow-light: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --shadow-strong: 0 4px 10px rgba(0, 0, 0, 0.2);
+    --cell-text-color: #000000;
+}
+
+/* Dark theme */
+body.dark-theme {
+    --background-start: #1a1a1a;
+    --background-end: #2a2a2a;
+    --cell-bg: #4a4a4a;
+    --cell-hover: #5a5a5a;
+    --cell-revealed: #1a1a1a;
+    --cell-bomb: #4a2a3a;
+    --text-color: #ff66b3;
+    --shadow-light: 0 2px 5px rgba(255, 255, 255, 0.1);
+    --shadow-strong: 0 4px 10px rgba(255, 255, 255, 0.2);
+    --cell-text-color: #ffffff;
+}
+
+/* Support for system dark theme */
+@media (prefers-color-scheme: dark) {
+    body:not(.light-theme) {
+        --background-start: #1a1a1a;
+        --background-end: #2a2a2a;
+        --cell-bg: #4a4a4a;
+        --cell-hover: #5a5a5a;
+        --cell-revealed: #1a1a1a;
+        --cell-bomb: #4a2a3a;
+        --text-color: #ff66b3;
+        --shadow-light: 0 2px 5px rgba(255, 255, 255, 0.1);
+        --shadow-strong: 0 4px 10px rgba(255, 255, 255, 0.2);
+        --cell-text-color: #ffffff;
+    }
+    body:not(.light-theme) .theme-icon::before {
+        content: '🌙';
+    }
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Poppins', sans-serif; /* Заменяем Arial на Poppins */
+    background: linear-gradient(to bottom, var(--background-start), var(--background-end));
+    min-height: 100vh;
+    margin: 0;
+    position: relative;
+    overflow-x: hidden;
+    transition: background 0.3s ease;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('icon.png');
+    background-repeat: repeat;
+    background-size: 30px 30px;
+    opacity: 0.03;
+    z-index: -1;
+}
+
+/* Theme toggle */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.2);
+}
+
+.theme-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+}
+
+.theme-icon::before {
+    content: '☀️';
+    transition: content 0.3s ease;
+}
+
+body.dark-theme .theme-icon::before {
+    content: '🌙';
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#logo {
+    max-width: 200px;
+    margin: 10px 0;
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+h1 {
+    color: var(--text-color);
+    font-family: 'Lobster', cursive;
+    font-size: 2em;
+    text-shadow: var(--text-shadow);
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+#settings {
+    margin-bottom: 20px;
+    background-color: var(--background-start);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-light);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#settings label {
+    margin: 5px 0;
+    display: block;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+#settings select {
+    padding: 5px;
+    margin-left: 5px;
+    border: 2px solid var(--primary-pink);
+    border-radius: 5px;
+    background-color: var(--background-start);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#settings select:focus {
+    outline: none;
+    border-color: var(--hover-pink);
+}
+
+#settings p {
+    margin: 5px 0;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+#crab-counter.zero {
+    color: #00ff00;
+    font-weight: bold;
+    animation: pulse 0.5s ease-in-out;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px 10px 40px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: var(--primary-pink);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: var(--shadow-strong);
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s ease;
+    position: relative;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-image: url('icon.png');
+    background-size: cover;
+}
+
+button:hover {
+    background-color: var(--hover-pink);
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+#new-game, #restart-game {
+    padding: 8px 16px 8px 36px; /* Уменьшенный размер кнопки */
+    font-size: 14px; /* Меньший шрифт */
+}
+
+#new-game::before, #restart-game::before {
+    width: 18px; /* Уменьшенная иконка */
+    height: 18px;
+}
+
+#start-game, #how-to-play {
+    padding: 10px 20px 10px 40px; /* Одинаковый размер с button */
+    font-size: 16px; /* Одинаковый шрифт */
+}
+
+#start-game::before, #how-to-play::before {
+    width: 20px; /* Одинаковый размер иконки */
+    height: 20px;
+}
+
+#game-board {
+    display: grid;
+    gap: 1px;
+    background-color: var(--border-pink);
+    border-radius: 10px;
+    padding: 1px;
+    box-shadow: var(--shadow-strong);
+    transition: box-shadow 0.3s ease;
+    position: relative;
+}
+
+.cell {
+    background-color: var(--cell-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    color: var(--cell-text-color);
+}
+
+.cell:hover:not(.revealed):not(.flagged) {
+    background-color: var(--cell-hover);
+}
+
+.cell.revealed {
+    background-color: var(--cell-revealed);
+}
+
+.cell.bomb {
+    background-color: var(--cell-bomb);
+}
+
+.cell.flagged {
+    background-color: #ffcc00;
+}
+
+#game-board.game-over {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-start);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-strong);
+    text-align: center;
+    z-index: 1000;
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    animation: popIn 0.3s ease-out;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Затемнение фона всего экрана */
+body:has(.message)::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Стили для всплывающего окна с инструкцией */
+#instructions-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-start);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-strong);
+    text-align: center;
+    z-index: 1000;
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+    animation: popIn 0.3s ease-out;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    max-width: 400px;
+}
+
+#instructions-modal h2 {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+}
+
+#instructions-modal p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+#instructions-modal button {
+    margin: 10px 0 0;
+    padding: 10px 20px;
+}
+
+body:has(#instructions-modal[style*="block"])::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+@keyframes popIn {
+    from {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+.message img {
+    width: 60px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.message p {
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+.message button {
+    margin: 0;
+    padding: 10px 20px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.message button:hover {
+    transform: scale(1.1);
+}
+
+footer {
+    margin-top: 20px;
+    padding: 10px;
+    text-align: center;
+    color: var(--text-color);
+    font-size: 0.9em;
+    font-family: Arial, sans-serif;
+    transition: color 0.3s ease;
+}
+
+footer p {
+    margin: 0;
+}

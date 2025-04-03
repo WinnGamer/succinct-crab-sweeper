@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Play Succinct Crab Sweeper, a fun minesweeper-style game with a crab twist by winngamer for SuccinctLabs.">
+    <title>Succinct Crab Sweeper</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="icon.png">
+</head>
+<body>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon"></span>
+    </button>
+    <header>
+        <img src="Succinct Logo Pink.png" alt="SuccinctLabs Logo" id="logo">
+        <h1>Crab Sweeper</h1>
+    </header>
+    <div id="settings">
+        <label>Difficulty:
+            <select id="difficulty">
+                <option value="easy">Easy (8x8, 10 crabs)</option>
+                <option value="medium">Medium (12x12, 20 crabs)</option>
+                <option value="hard">Hard (16x16, 40 crabs)</option>
+            </select>
+        </label><br>
+        <p>Crabs remaining: <span id="crab-counter">0</span></p>
+        <p>Time: <span id="game-timer">00:00</span></p>
+        <button id="start-game"><span>Start Game</span></button>
+        <button id="new-game" style="display: none;"><span>New Game</span></button>
+        <button id="restart-game" style="display: none;"><span>Restart</span></button>
+        <button id="how-to-play"><span>How to Play</span></button>
+    </div>
+    <div id="game-board"></div>
+    <footer>
+        <p>© 2025 Succinct Crab Sweeper by winngamer</p>
+    </footer>
+    <script src="script.js" defer></script>
+</body>
+</html>
